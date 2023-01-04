@@ -1,9 +1,9 @@
-name: CI
+name: CI/CD
 
 on: [push]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -12,5 +12,35 @@ jobs:
           node-version: 12
       - run: npm install
       - run: npm test
-      - run: npm run prettier-check
-      - run: npm run lint-check
+      - run: npx prettier --check "src/**/*.{js,jsx}"
+      - run: npx eslint src/**/*.{js,jsx}"
+      - name: Upload test results
+        uses: actions/upload-artifact@v1
+        with:
+          name: test-results
+          path: test-results.xml
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm install
+      - run: npm run build
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: build-artifact
+          path: build
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/download-artifact@v1
+        with:
+          name: build-artifact
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm install
