@@ -37,7 +37,8 @@ export function Todo() {
               }
             ]);
             setNewTodo('');
-          }}>
+          }}
+        >
           Save
         </Button>
       </div>

@@ -1,9 +1,9 @@
 import { Button } from '@mui/material';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 export function Timer() {
   const [timer, setTimer] = useState(0);
-  const [intervalID, setIntervalID] = useState(0);
+  const [intervalID, setIntervalID] = useState<NodeJS.Timer>();
 
   const startTimer = () => {
     const id = setInterval(() => {
