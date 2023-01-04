@@ -12,3 +12,5 @@ jobs:
         node-version: 12
     - run: npm install
     - run: npm test
+    - run: npx prettier --check "src/**/*.{js,jsx}"
+    - run: npx eslint src/**/*.{js,jsx}
